@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JAZARI, Applied AI Academy</title>
+<meta name="description" content="JAZARI is an applied AI academy in Cairo. We teach professionals and organisations how to navigate AI: what it changes, what to decide, and how to build with it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Fraunces:opsz,wght,SOFT,WONK@9..144,400;9..144,600;9..144,700;9..144,900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --logo:"Syne",system-ui,sans-serif;
+  --disp:"Fraunces",Georgia,serif;
+  --body:"Figtree",system-ui,-apple-system,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --ar:"IBM Plex Sans Arabic",system-ui,sans-serif;
+  --w:1200px; --nav:74px;
+  --ember:#FF5E2C; --solar:#FF8A1F; --apricot:#FFB27A;
+}
+html[data-theme="light"]{
+  --bg:#FCFAF4; --surface:#FFFFFF; --surface2:#F5F0E4; --hl:#FFF6C0; --hl-line:#F0E3A8;
+  --tx:#14100E; --tx2:#3A2A22; --mut:#8A7B70; --line:#E6DECD;
+  --acc:#D9410F; --dot:rgba(58,42,34,.14); --dot-hot:255,94,44;
+  --nav-bg:rgba(252,250,244,.84); --pill-bg:#14100E; --pill-tx:#FCFAF4;
+  --q-bg:#14100E; --q-tx:#FCFAF4; --q-tx2:#C9BDB2; --q-line:transparent;
+  --mq-bg:#FFF6C0; --foot-bg:#14100E; --foot-tx:#C9BDB2; --foot-h:#FCFAF4; --foot-line:#2A1F19;
+  --a1:.42; --a2:.95; --a3:.4; --shadow:0 18px 40px -22px rgba(20,16,14,.3);
+  color-scheme:light;
+}
+html[data-theme="dark"]{
+  --bg:#14100E; --surface:#1E1713; --surface2:#241A15; --hl:#2B1E15; --hl-line:#4A3324;
+  --tx:#FFF6C0; --tx2:#D6C9B4; --mut:#9E8F84; --line:#3A2A22;
+  --acc:#FF8A4D; --dot:rgba(255,178,122,.15); --dot-hot:255,138,31;
+  --nav-bg:rgba(20,16,14,.84); --pill-bg:#FFF6C0; --pill-tx:#14100E;
+  --q-bg:#241A15; --q-tx:#FFF6C0; --q-tx2:#C9BDB2; --q-line:#3A2A22;
+  --mq-bg:#241A15; --foot-bg:#0D0A08; --foot-tx:#9E8F84; --foot-h:#FFF6C0; --foot-line:#241A15;
+  --a1:.3; --a2:.14; --a3:.24; --shadow:0 20px 44px -24px rgba(0,0,0,.75);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:var(--body);font-size:17px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .4s,color .4s}
+h1,h2,h3,h4{font-family:var(--disp);font-weight:700;line-height:1.02;letter-spacing:-.02em;margin:0;
+  font-variation-settings:"SOFT" 22,"WONK" 1}
+p{margin:0}
+a{color:var(--acc);text-decoration:none}
+img,svg{max-width:100%}
+:focus-visible{outline:2.5px solid var(--acc);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--w);margin:0 auto;padding:0 26px;position:relative;z-index:2}
+.mono{font-family:var(--mono);font-size:.74em}
+svg.ic{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+/* themed svg artwork */
+.s-surface{fill:var(--surface)} .s-soft{fill:var(--surface2)} .s-hl{fill:var(--hl)}
+.s-ink{fill:var(--tx)} .s-line{stroke:var(--line)} .s-mut{stroke:var(--mut)}
+.s-hlline{stroke:var(--hl-line)}
+
+/* background */
+#grid{position:fixed;inset:0;z-index:0;pointer-events:none}
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora i{position:absolute;display:block;border-radius:50%;filter:blur(90px)}
+.a1{width:46vw;height:46vw;min-width:340px;min-height:340px;opacity:var(--a1);
+  background:radial-gradient(circle,rgba(255,94,44,1),transparent 68%);top:-14vh;right:-10vw;animation:fl1 26s ease-in-out infinite alternate}
+.a2{width:38vw;height:38vw;min-width:280px;min-height:280px;opacity:var(--a2);
+  background:radial-gradient(circle,rgba(255,246,192,1),transparent 70%);bottom:-12vh;left:-8vw;animation:fl2 32s ease-in-out infinite alternate}
+.a3{width:30vw;height:30vw;min-width:220px;min-height:220px;opacity:var(--a3);
+  background:radial-gradient(circle,rgba(255,178,122,1),transparent 70%);top:45%;left:52%;animation:fl3 24s ease-in-out infinite alternate}
+@keyframes fl1{to{transform:translate3d(-7vw,9vh,0) scale(1.14)}}
+@keyframes fl2{to{transform:translate3d(9vw,-7vh,0) scale(1.1)}}
+@keyframes fl3{to{transform:translate3d(-11vw,-8vh,0) scale(.86)}}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:60;height:var(--nav);background:var(--nav-bg);
+  backdrop-filter:blur(16px) saturate(140%);border-bottom:1px solid transparent;transition:border-color .3s,background .4s}
+nav.stuck{border-bottom-color:var(--line)}
+.nav-in{max-width:var(--w);margin:0 auto;padding:0 26px;height:var(--nav);display:flex;align-items:center;gap:18px}
+.brand{font-family:var(--logo);font-weight:800;font-size:25px;letter-spacing:-.02em;color:var(--tx);
+  cursor:pointer;text-transform:uppercase;display:inline-flex;align-items:center;gap:1px}
+.brand b{color:var(--ember)}
+.brand .dot{width:7px;height:7px;border-radius:50%;background:var(--ember);margin-left:5px;margin-bottom:12px}
+.nav-links{display:flex;gap:3px;margin-left:auto;align-items:center}
+.nav-links a{color:var(--tx2);font-size:15.5px;font-weight:500;padding:9px 15px;border-radius:99px;transition:.22s}
+.nav-links a:hover{background:var(--surface2);color:var(--tx)}
+.nav-links a.on{background:var(--pill-bg);color:var(--pill-tx)}
+.nav-cta{background:var(--acc)!important;color:#fff!important;padding:11px 20px!important;font-weight:600!important}
+html[data-theme="dark"] .nav-cta{color:#14100E!important}
+.nav-cta:hover{filter:brightness(.92)}
+.tt{background:none;border:1px solid var(--line);border-radius:12px;width:42px;height:42px;cursor:pointer;
+  color:var(--tx);display:grid;place-items:center;flex:none;transition:.22s}
+.tt:hover{background:var(--surface2)}
+.burger{display:none;background:none;border:1px solid var(--line);border-radius:12px;width:42px;height:42px;
+  cursor:pointer;color:var(--tx);align-items:center;justify-content:center;flex:none}
+.sheet{position:fixed;inset:var(--nav) 0 auto 0;background:var(--bg);border-bottom:1px solid var(--line);
+  z-index:55;padding:14px 26px 22px;display:none;flex-direction:column;gap:4px}
+.sheet.open{display:flex}
+.sheet a{padding:14px 12px;border-radius:12px;font-size:19px;font-weight:600;color:var(--tx);font-family:var(--disp)}
+.sheet a.on{background:var(--hl)}
+@media(max-width:960px){.nav-links{display:none}.burger{display:flex;margin-left:auto}}
+
+main{padding-top:var(--nav);position:relative;z-index:2}
+.page{display:none;animation:pgin .55s cubic-bezier(.16,.84,.3,1) both}
+.page.live{display:block}
+@keyframes pgin{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+section{padding:96px 0;position:relative}
+section.tight{padding:62px 0}
+
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;
+  text-transform:uppercase;letter-spacing:.11em;color:var(--acc);background:var(--hl);
+  border:1px solid var(--hl-line);padding:7px 15px;border-radius:99px;margin-bottom:22px}
+h1{font-size:clamp(44px,8vw,100px);font-weight:700;letter-spacing:-.035em}
+h2{font-size:clamp(31px,4.9vw,56px);letter-spacing:-.028em}
+h3{font-size:22px}
+.lead{font-size:clamp(17px,1.9vw,21px);color:var(--tx2);line-height:1.6;max-width:34em}
+.sec-head{max-width:31em;margin-bottom:52px}
+.sec-head p{color:var(--tx2);margin-top:18px;font-size:18px}
+.ink-hi{position:relative;display:inline-block}
+.ink-hi svg{position:absolute;left:-6%;top:-14%;width:112%;height:128%;overflow:visible;pointer-events:none}
+.ink-hi svg path{fill:none;stroke:var(--ember);stroke-width:3.4;stroke-linecap:round;
+  stroke-dasharray:var(--len);stroke-dashoffset:var(--len)}
+.ink-hi.drawn svg path{transition:stroke-dashoffset 1.15s cubic-bezier(.4,.1,.2,1) .45s;stroke-dashoffset:0}
+
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 26px;border-radius:99px;font-weight:600;
+  font-size:16px;font-family:var(--body);border:1.5px solid transparent;cursor:pointer;transition:.22s}
+.btn-p{background:var(--acc);color:#fff}
+html[data-theme="dark"] .btn-p{color:#14100E}
+.btn-p:hover{filter:brightness(.92);transform:translateY(-2px)}
+.btn-g{background:transparent;border-color:var(--tx);color:var(--tx)}
+.btn-g:hover{background:var(--tx);color:var(--bg)}
+.btn-s{padding:11px 18px;font-size:15px;background:var(--surface2);border-color:var(--line);color:var(--tx)}
+.btn-s:hover{background:var(--tx);color:var(--bg);border-color:var(--tx)}
+.cta-row{display:flex;gap:13px;flex-wrap:wrap;margin-top:34px}
+
+.hero{padding:clamp(48px,8vh,96px) 0 70px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:54px;align-items:center}
+.hero h1{margin-bottom:26px}
+.figure{position:relative;aspect-ratio:1/1;max-width:440px;margin-inline:auto;width:100%}
+.figure svg{width:100%;height:100%;overflow:visible}
+.float{animation:bob 9s ease-in-out infinite alternate}
+@keyframes bob{to{transform:translateY(-14px)}}
+.stats{display:flex;gap:34px;margin-top:44px;flex-wrap:wrap;padding-top:30px;border-top:1px solid var(--line)}
+.stat b{display:block;font-family:var(--disp);font-size:31px;font-weight:700;color:var(--tx);line-height:1}
+.stat span{font-size:14px;color:var(--mut)}
+@media(max-width:940px){.hero-grid{grid-template-columns:1fr;gap:26px}.figure{max-width:270px;order:-1}}
+
+.mq{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--mq-bg);
+  overflow:hidden;padding:15px 0;white-space:nowrap}
+.mq-in{display:inline-flex;gap:46px;will-change:transform}
+.mq span{font-family:var(--disp);font-size:20px;font-weight:600;color:var(--tx);display:inline-flex;align-items:center;gap:46px}
+.mq span::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--ember);display:inline-block}
+
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+@media(max-width:900px){.grid3,.grid2{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:30px;
+  transition:transform .3s cubic-bezier(.2,.8,.3,1),box-shadow .3s,border-color .3s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:var(--apricot)}
+.card h3{margin-bottom:11px}
+.card p{color:var(--tx2);font-size:16px;flex:1}
+.ico{width:46px;height:46px;border-radius:14px;background:var(--hl);border:1px solid var(--hl-line);
+  display:grid;place-items:center;color:var(--acc);margin-bottom:18px}
+.ico svg{width:22px;height:22px}
+.num{font-family:var(--mono);font-size:12px;color:var(--acc);letter-spacing:.09em}
+
+.offer{list-style:none;margin:20px 0 0;padding:0;border-top:1px solid var(--line)}
+.offer li{display:flex;gap:13px;padding:13px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.offer li:last-child{border-bottom:0}
+.offer svg{width:17px;height:17px;color:var(--acc);margin-top:5px;flex:none}
+.offer b{font-weight:600;display:block;font-size:16px}
+.offer em{font-style:normal;color:var(--mut);font-size:14.5px}
+
+.svc{border:1px solid var(--line);border-radius:26px;background:var(--surface);overflow:hidden;margin-bottom:22px}
+.svc-top{display:grid;grid-template-columns:1.05fr .95fr}
+.svc-copy{padding:44px}
+.svc-art{background:var(--surface2);border-left:1px solid var(--line);display:grid;place-items:center;padding:34px;min-height:250px}
+.svc-art svg{width:100%;max-width:280px}
+.tagpill{display:inline-block;font-family:var(--mono);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;
+  background:var(--hl);color:var(--acc);border:1px solid var(--hl-line);padding:5px 12px;border-radius:99px;margin-bottom:16px}
+@media(max-width:900px){.svc-top{grid-template-columns:1fr}.svc-copy{padding:30px}
+  .svc-art{border-left:0;border-top:1px solid var(--line);min-height:190px}}
+
+.steps{display:grid}
+.stp{display:grid;grid-template-columns:76px 1fr;gap:24px;padding:30px 0;border-top:1px solid var(--line);align-items:start}
+.stp:last-child{border-bottom:1px solid var(--line)}
+.stp .k{font-family:var(--disp);font-size:44px;font-weight:700;color:var(--apricot);line-height:.9}
+.stp h3{margin-bottom:8px}
+.stp p{color:var(--tx2);font-size:16.5px;max-width:52em}
+@media(max-width:700px){.stp{grid-template-columns:52px 1fr;gap:16px}.stp .k{font-size:32px}}
+
+.quote{background:var(--q-bg);color:var(--q-tx);border:1px solid var(--q-line);border-radius:28px;
+  padding:56px;position:relative;overflow:hidden}
+.quote h2{color:var(--q-tx);max-width:17em}
+.quote p{color:var(--q-tx2);margin-top:20px;max-width:40em;font-size:18px}
+.quote .blob{position:absolute;width:320px;height:320px;border-radius:50%;filter:blur(70px);
+  background:radial-gradient(circle,rgba(255,94,44,.5),transparent 70%);right:-60px;bottom:-110px}
+.quote .btn-p{background:var(--ember);color:#fff}
+@media(max-width:700px){.quote{padding:34px}}
+
+.perks{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:24px;overflow:hidden}
+.perks>div{background:var(--surface);padding:30px}
+.perks h3{font-size:19px;margin-bottom:9px}
+.perks p{color:var(--tx2);font-size:15.5px}
+@media(max-width:800px){.perks{grid-template-columns:1fr}}
+
+.formwrap{background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:36px}
+label{display:block;font-size:14px;color:var(--mut);margin:16px 0 7px;font-weight:500}
+input,select,textarea{width:100%;background:var(--bg);border:1.5px solid var(--line);color:var(--tx);
+  padding:13px 15px;border-radius:13px;font-family:var(--body);font-size:16px;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--acc)}
+textarea{min-height:100px;resize:vertical}
+::placeholder{color:var(--mut);opacity:.75}
+.seg{display:flex;gap:9px;flex-wrap:wrap}
+.seg button{flex:1;min-width:130px;background:var(--bg);border:1.5px solid var(--line);color:var(--tx2);
+  padding:13px;border-radius:13px;cursor:pointer;font-family:var(--body);font-size:15px;font-weight:500;transition:.2s}
+.seg button.on{border-color:var(--acc);background:var(--hl);color:var(--tx)}
+.ok{display:none;background:var(--hl);border:1.5px solid var(--apricot);border-radius:14px;padding:16px;margin-top:18px;font-size:15px}
+.ok.show{display:block}
+.contactlist{display:flex;flex-direction:column;gap:16px;margin-top:30px}
+.contactlist div{display:flex;gap:13px;align-items:center;font-size:16px;color:var(--tx2)}
+.contactlist svg{color:var(--acc)}
+
+footer{background:var(--foot-bg);color:var(--foot-tx);padding:64px 0 34px;position:relative;z-index:2;margin-top:40px}
+.f-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:36px}
+footer h4{font-family:var(--disp);color:var(--foot-h);font-size:17px;margin-bottom:16px;font-weight:600}
+footer a{color:var(--foot-tx);display:block;padding:5px 0;font-size:15.5px}
+footer a:hover{color:var(--ember)}
+.f-brand{font-family:var(--logo);font-weight:800;font-size:28px;color:var(--foot-h);text-transform:uppercase;
+  letter-spacing:-.02em;display:inline-flex;align-items:center}
+.f-brand b{color:var(--ember)}
+.f-brand .dot{width:7px;height:7px;border-radius:50%;background:var(--ember);margin-left:5px;margin-bottom:13px}
+.socials{display:flex;gap:11px;margin-top:20px}
+.socials a{width:42px;height:42px;border-radius:13px;border:1px solid var(--foot-line);display:grid;place-items:center;
+  color:var(--foot-tx);padding:0;transition:.22s}
+.socials a:hover{background:var(--ember);color:#fff;border-color:var(--ember);transform:translateY(-3px)}
+.socials svg{width:19px;height:19px}
+.f-bot{margin-top:46px;padding-top:24px;border-top:1px solid var(--foot-line);display:flex;
+  justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--mut)}
+@media(max-width:900px){.f-grid{grid-template-columns:1fr 1fr;gap:28px}}
+@media(max-width:560px){.f-grid{grid-template-columns:1fr}}
+
+[data-a]{--d:0ms}
+[data-a="rise"]{opacity:0;transform:translateY(34px);filter:blur(7px);
+  transition:opacity .85s cubic-bezier(.2,.8,.3,1) var(--d),transform .85s cubic-bezier(.2,.8,.3,1) var(--d),filter .85s var(--d)}
+[data-a="rise"].in{opacity:1;transform:none;filter:none}
+[data-a="scale"]{opacity:0;transform:scale(.94) translateY(26px);
+  transition:opacity .8s cubic-bezier(.2,.8,.3,1) var(--d),transform .8s cubic-bezier(.2,.8,.3,1) var(--d)}
+[data-a="scale"].in{opacity:1;transform:none}
+.w{display:inline-block;opacity:0;transform:translateY(.5em) rotate(2.5deg);filter:blur(6px);
+  transition:opacity .72s cubic-bezier(.2,.85,.25,1),transform .72s cubic-bezier(.2,.85,.25,1),filter .72s}
+.w.in{opacity:1;transform:none;filter:none}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  [data-a],.w{opacity:1!important;transform:none!important;filter:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<canvas id="grid" aria-hidden="true"></canvas>
+<div class="aurora" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
+
+<nav id="nav"><div class="nav-in">
+  <span class="brand" data-go="home">JAZ<b>A</b>RI<i class="dot"></i></span>
+  <div class="nav-links">
+    <a data-go="home">Home</a><a data-go="about">About us</a><a data-go="services">Services</a>
+    <a data-go="community">Community</a><a class="nav-cta" data-go="contact">Contact us</a>
+  </div>
+  <button class="tt" id="tt" aria-label="Switch colour theme" title="Switch theme"></button>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">
+    <svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></nav>
+<div class="sheet" id="sheet">
+  <a data-go="home">Home</a><a data-go="about">About us</a><a data-go="services">Services</a>
+  <a data-go="community">Community</a><a data-go="contact">Contact us</a>
+</div>
+
+<main>
+
+<!-- HOME -->
+<div class="page live" id="p-home">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow" data-a="rise">Applied AI academy · Cairo</span>
+        <h1 data-split>Learn AI by <span class="ink-hi" data-circle>building</span> it.</h1>
+        <p class="lead" data-a="rise" style="--d:180ms">JAZARI teaches professionals and organisations how to navigate AI: what it actually changes, what to decide about it, and how to build with it. Everything we teach is applied, and you leave with something working rather than a certificate.</p>
+        <div class="cta-row" data-a="rise" style="--d:300ms">
+          <button class="btn btn-p" data-go="services"><span data-ic="grid"></span>Explore our services</button>
+          <button class="btn btn-g" data-go="community"><span data-ic="users"></span>Join the community</button>
+        </div>
+        <div class="stats" data-a="rise" style="--d:420ms">
+          <div class="stat"><b>Applied</b><span>never theory first</span></div>
+          <div class="stat"><b>AR + EN</b><span>taught in both</span></div>
+          <div class="stat"><b>Local models</b><span>Karnak and BelMasry</span></div>
+          <div class="stat"><b>60 days</b><span>we check it still runs</span></div>
+        </div>
+      </div>
+      <div class="figure" data-a="scale" style="--d:160ms"><div class="float" id="heroArt"></div></div>
+    </div>
+  </section>
+
+  <div class="mq" aria-hidden="true"><div class="mq-in" id="mq"></div></div>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow" data-a="rise">What we do</span>
+        <h2 data-split>An academy for people who have to make AI work in real life.</h2>
+        <p data-a="rise" style="--d:150ms">Not a consultancy that builds it for you, and not a platform that hands you videos. We teach the thinking and the doing together, to individuals finding their footing and to organisations bringing a lot of people along at once.</p>
+      </div>
+      <div class="grid3" id="promises"></div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow" data-a="rise">How we teach</span>
+        <h2 data-split>Three steps, and the first one is free.</h2>
+      </div>
+      <div class="steps" id="steps"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow" data-a="rise">What we offer</span>
+        <h2 data-split>Three ways to learn and work with us.</h2>
+        <p data-a="rise" style="--d:150ms">The academy is where nearly everyone meets us. The other two grew out of it, because teaching produces the material for both.</p>
+      </div>
+      <div class="grid3" id="catCards"></div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="quote" data-a="scale">
+        <div class="blob"></div>
+        <h2>Egypt has its own AI models now. We teach what they actually do.</h2>
+        <p>Karnak and BelMasry were built here and run here, which matters when your data is not allowed to leave the country. BelMasry also handles Egyptian dialect properly, which no global model does well. We teach on both, alongside ChatGPT, Claude, Gemini and the rest, and a real part of the work is knowing which one belongs on which job.</p>
+        <div class="cta-row"><button class="btn btn-p" data-go="services">See what we teach<span data-ic="arrow"></span></button></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ABOUT -->
+<div class="page" id="p-about">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow" data-a="rise">About us</span>
+        <h1 data-split>An academy named after an <span class="ink-hi" data-circle>engineer</span>.</h1>
+        <p class="lead" data-a="rise" style="--d:180ms">Ismail al-Jazari built machines in the twelfth century, then wrote the book that let other people rebuild them. That is the whole idea: make something that works, then hand over the drawings.</p>
+      </div>
+      <div class="figure" data-a="scale"><div class="float" id="aboutArt"></div></div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow" data-a="rise">Why we exist</span>
+        <h2 data-split>There is no shortage of AI content. There is a shortage of people who can navigate it.</h2>
+      </div>
+      <div class="grid2">
+        <div class="card" data-a="rise">
+          <div class="ico" data-ic="book"></div>
+          <h3>Awareness is everywhere. Judgement is not.</h3>
+          <p>Most people in Egypt have watched the videos. Free courses are everywhere and the state is running training at national scale. What almost nobody teaches is how to tell a real use from a distraction, which model belongs on which problem, and what to do on Monday morning. That judgement is what an academy should produce.</p>
+        </div>
+        <div class="card" data-a="rise" style="--d:120ms">
+          <div class="ico" data-ic="target"></div>
+          <h3>We organise around the work, not the discipline</h3>
+          <p>Other providers teach data science, or machine learning, or programming. A marketer, a finance lead and an engineer need completely different things from AI, and so does a founder deciding whether to invest in it at all. Our content is built around the work someone actually does.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow" data-a="rise">How we work</span>
+        <h2 data-split>Six things we hold to.</h2>
+      </div>
+      <div class="grid3" id="values"></div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow" data-a="rise">Who we teach</span>
+        <h2 data-split>Individuals, teams, and the people deciding for both.</h2>
+      </div>
+      <div class="grid3" id="aud"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap"><div class="quote" data-a="scale">
+      <div class="blob"></div>
+      <h2>We teach first and charge later.</h2>
+      <p>The roadshow is free. The webinars are free. The readiness check is free. We would rather you watch us teach before you pay for anything, because the thing we are actually selling is hard to judge from a brochure.</p>
+      <div class="cta-row"><button class="btn btn-p" data-go="contact">Book a free session<span data-ic="arrow"></span></button></div>
+    </div></div>
+  </section>
+</div>
+
+<!-- SERVICES -->
+<div class="page" id="p-services">
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow" data-a="rise">Services</span>
+      <h1 data-split style="max-width:14em">Three ways to <span class="ink-hi" data-circle>learn</span> and work with us.</h1>
+      <p class="lead" data-a="rise" style="--d:180ms">The academy is where nearly everyone meets us, whether as an individual taking a seat or as an organisation bringing a whole team. The products and the advisory work both grew out of the teaching.</p>
+    </div>
+  </section>
+  <section class="tight"><div class="wrap" id="svcBlocks"></div></section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow" data-a="rise">Start free</span>
+        <h2 data-split>Three things you can have right now, at no cost.</h2>
+        <p data-a="rise" style="--d:150ms">These are real products from our catalogue, released free for a period. Not brochures.</p>
+      </div>
+      <div class="grid3" id="freeCards"></div>
+    </div>
+  </section>
+</div>
+
+<!-- COMMUNITY -->
+<div class="page" id="p-community">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow" data-a="rise">Community</span>
+        <h1 data-split>A room full of people <span class="ink-hi" data-circle>building</span> things.</h1>
+        <p class="lead" data-a="rise" style="--d:180ms">The JAZARI Community is where alumni, practitioners and people learning on their own keep going after a programme ends. It is small, it is Egyptian, and it is built around showing work rather than talking about it.</p>
+        <div class="cta-row" data-a="rise" style="--d:300ms"><a class="btn btn-p" href="#apply"><span data-ic="users"></span>Apply to join</a></div>
+      </div>
+      <div class="figure" data-a="scale"><div class="float" id="commArt"></div></div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow" data-a="rise">What you get</span>
+        <h2 data-split>What being in it actually means.</h2>
+      </div>
+      <div class="perks" id="perks"></div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow" data-a="rise">Who it is for</span>
+        <h2 data-split>Open to anyone who is actually doing the work.</h2>
+        <p data-a="rise" style="--d:150ms">You do not need to have taken a programme with us. You do need to be building, teaching or deciding something real.</p>
+      </div>
+      <div class="grid3" id="whoFor"></div>
+    </div>
+  </section>
+
+  <section id="apply">
+    <div class="wrap grid2" style="align-items:start;gap:44px">
+      <div data-a="rise">
+        <span class="eyebrow">Apply</span>
+        <h2 data-split>Tell us what you are working on.</h2>
+        <p class="lead" style="margin-top:18px">We read every application. Membership is free while the community is small, and we keep it that way by admitting people who will actually take part.</p>
+        <div class="contactlist">
+          <div><span data-ic="clock"></span><span>We reply within one working day</span></div>
+          <div><span data-ic="check"></span><span>Free to join, no commitment</span></div>
+          <div><span data-ic="pin"></span><span>Online, with meetups in Cairo</span></div>
+        </div>
+      </div>
+      <form class="formwrap" id="formC" data-a="rise" style="--d:120ms">
+        <label>What best describes you?</label>
+        <div class="seg" id="segC">
+          <button type="button" class="on" data-v="Practitioner">Practitioner</button>
+          <button type="button" data-v="Team lead">Team lead</button>
+          <button type="button" data-v="Founder">Founder</button>
+          <button type="button" data-v="Student">Student</button>
+        </div>
+        <label for="cn">Your name</label><input id="cn" name="name" required placeholder="Full name">
+        <label for="ce">Email</label><input id="ce" name="email" type="email" required placeholder="you@work.com">
+        <label for="cr">Role and organisation</label><input id="cr" name="role" placeholder="Marketing lead at ...">
+        <label for="cw">What are you working on with AI right now?</label>
+        <textarea id="cw" name="work" placeholder="A sentence or two is plenty. Tell us the actual problem."></textarea>
+        <button class="btn btn-p" type="submit" style="width:100%;justify-content:center;margin-top:22px">
+          <span data-ic="send"></span>Apply to join</button>
+        <div class="ok" id="okC">Your email app should have opened with the application ready. If it did not, write to community@jazari.academy.</div>
+      </form>
+    </div>
+  </section>
+</div>
+
+<!-- CONTACT -->
+<div class="page" id="p-contact">
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow" data-a="rise">Contact us</span>
+      <h1 data-split style="max-width:13em">Tell us what you need and we will come back with <span class="ink-hi" data-circle>options</span>.</h1>
+    </div>
+  </section>
+  <section class="tight">
+    <div class="wrap grid2" style="align-items:start;gap:44px">
+      <div data-a="rise">
+        <p class="lead">No sales sequence. One person reads it and replies with what we would suggest, what it would cost, and when we could run it.</p>
+        <div class="contactlist">
+          <div><span data-ic="mail"></span><a href="mailto:hello@jazari.academy">hello@jazari.academy</a></div>
+          <div><span data-ic="pin"></span><span>Cairo, Egypt</span></div>
+          <div><span data-ic="clock"></span><span>We reply within one working day</span></div>
+        </div>
+        <div style="margin-top:34px;padding:26px;background:var(--hl);border:1px solid var(--hl-line);border-radius:20px">
+          <h3 style="font-size:19px;margin-bottom:9px">Not ready to talk?</h3>
+          <p style="color:var(--tx2);font-size:15.5px">Come to a free session first. Ninety minutes, live demonstrations, no pitch. Choose it in the dropdown below.</p>
+        </div>
+      </div>
+      <form class="formwrap" id="formQ" data-a="rise" style="--d:120ms">
+        <label>Who is this for?</label>
+        <div class="seg" id="segQ">
+          <button type="button" class="on" data-v="team">For my organisation</button>
+          <button type="button" data-v="me">For myself</button>
+        </div>
+        <label for="qn">Your name</label><input id="qn" name="name" required placeholder="Full name">
+        <label for="qe">Email</label><input id="qe" name="email" type="email" required placeholder="you@company.com">
+        <div id="orgWrap"><label for="qo">Organisation</label><input id="qo" name="org" placeholder="Company name"></div>
+        <label for="qi">What are you interested in?</label><select id="qi" name="interest"></select>
+        <label for="qm">Anything else we should know?</label>
+        <textarea id="qm" name="message" placeholder="The people, the problem, roughly when you would want to run it."></textarea>
+        <button class="btn btn-p" type="submit" style="width:100%;justify-content:center;margin-top:22px">
+          <span data-ic="send"></span>Send enquiry</button>
+        <div class="ok" id="okQ">Your email app should have opened with the details ready. If it did not, write to hello@jazari.academy.</div>
+      </form>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <div class="f-brand">JAZ<b>A</b>RI<i class="dot"></i></div>
+        <p style="margin-top:14px;max-width:26em;font-size:15.5px">An applied AI academy in Cairo, teaching professionals and organisations how to navigate AI and build with it.</p>
+        <div class="socials" id="socials"></div>
+      </div>
+      <div><h4>Pages</h4><a data-go="home">Home</a><a data-go="about">About us</a><a data-go="services">Services</a><a data-go="community">Community</a><a data-go="contact">Contact us</a></div>
+      <div><h4>Services</h4><a data-go="services">The Academy</a><a data-go="services">Digital products</a><a data-go="services">Consulting and build</a><a data-go="community">Community</a></div>
+      <div><h4>Get in touch</h4><a href="mailto:hello@jazari.academy">hello@jazari.academy</a><a href="mailto:community@jazari.academy">community@jazari.academy</a><span style="display:block;padding:5px 0;font-size:15.5px">Cairo, Egypt</span></div>
+    </div>
+    <div class="f-bot"><span>© 2026 JAZARI AI Academy</span><span class="mono">Learn it. Build it. Keep it.</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+var P={
+ grid:'<rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/>',
+ users:'<circle cx="9" cy="8" r="3.4"/><path d="M2.5 20a6.5 6.5 0 0113 0"/><path d="M16 5.2a3.4 3.4 0 010 5.6M17.5 20a6.4 6.4 0 00-2-4.6"/>',
+ user:'<circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0114 0"/>',
+ arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>', check:'<path d="M20 6L9 17l-5-5"/>',
+ mail:'<rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M3 7.5l9 6 9-6"/>',
+ send:'<path d="M21 3L10.5 13.5M21 3l-6.8 18-3.7-7.5L3 10.1 21 3z"/>',
+ pin:'<path d="M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5.5l3.5 2"/>',
+ compass:'<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+ cube:'<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>',
+ repeat:'<path d="M3 11a8 8 0 0113.6-5.6L21 9"/><path d="M21 4v5h-5"/><path d="M21 13a8 8 0 01-13.6 5.6L3 15"/><path d="M3 20v-5h5"/>',
+ wrench:'<path d="M14.5 5.5a4.5 4.5 0 00-5.9 5.9L3 17v4h4l5.6-5.6a4.5 4.5 0 005.9-5.9l-3 3-2.5-2.5 3-3z"/>',
+ book:'<path d="M4 4.5A2.5 2.5 0 016.5 2H20v16H6.5A2.5 2.5 0 004 20.5z"/><path d="M4 18.5V20a2 2 0 002 2h14"/>',
+ target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="1.2"/>',
+ spark:'<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/><path d="M19 17l.8 2.2L22 20l-2.2.8L19 23l-.8-2.2L16 20l2.2-.8L19 17z"/>',
+ shield:'<path d="M12 3l8 3v6c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/>',
+ factory:'<path d="M3 21h18"/><path d="M4 21V10l5 3V10l5 3V7l5 3v11"/><path d="M8 17h2M14 17h2"/>',
+ doc:'<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8l-5-5z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/>',
+ video:'<rect x="2.5" y="6" width="13" height="12" rx="3"/><path d="M15.5 10.5l6-3.5v10l-6-3.5z"/>',
+ present:'<path d="M3 21h18M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/>',
+ layers:'<path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/>',
+ bolt:'<path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>',
+ star:'<path d="M12 3l2.6 6 6.4.6-4.8 4.3 1.4 6.3L12 17l-5.6 3.2 1.4-6.3L3 9.6 9.4 9z"/>',
+ sun:'<circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.6M12 19.4V22M2 12h2.6M19.4 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/>',
+ moon:'<path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"/>',
+ li:'<path d="M4.5 3.5h15a1 1 0 011 1v15a1 1 0 01-1 1h-15a1 1 0 01-1-1v-15a1 1 0 011-1z"/><path d="M7.5 10v7M7.5 7.2v.1M11.5 17v-4a2.5 2.5 0 015 0v4"/>',
+ x:'<path d="M4 4l16 16M20 4L4 20"/>',
+ ig:'<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor"/>',
+ yt:'<rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z"/>',
+ wa:'<path d="M3.5 20.5l1.4-4.7A8.3 8.3 0 1112 20.3a8.4 8.4 0 01-4.2-1.1z"/><path d="M8.8 8.6c.3 2.9 2.7 5.3 5.6 5.6.5 0 1-.3 1.2-.8l.2-.6-2-1-.7.8a5.6 5.6 0 01-2.7-2.7l.8-.7-1-2-.6.2c-.5.2-.8.7-.8 1.2z"/>'
+};
+function svg(n){return P[n]?'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">'+P[n]+'</svg>':''}
+function paint(root){(root||document).querySelectorAll("[data-ic]").forEach(function(e){
+  if(e.dataset.done)return;e.dataset.done="1";e.insertAdjacentHTML("afterbegin",svg(e.dataset.ic));});}
+
+/* theme */
+var root=document.documentElement,tt=document.getElementById("tt");
+function paintTT(){tt.innerHTML=root.dataset.theme==="dark"?svg("sun"):svg("moon");}
+tt.addEventListener("click",function(){
+  root.dataset.theme=root.dataset.theme==="dark"?"light":"dark";paintTT();});
+paintTT();
+
+/* magnetic dot grid */
+(function(){
+  var c=document.getElementById("grid"),x=c.getContext("2d"),W,H,dpr,dots=[],m={x:-9e3,y:-9e3};
+  function build(){
+    dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;
+    c.width=W*dpr;c.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0);
+    var gap=W<640?40:52;dots=[];
+    for(var gx=gap/2;gx<W+gap;gx+=gap)for(var gy=gap/2;gy<H+gap;gy+=gap)dots.push({ox:gx,oy:gy,x:gx,y:gy});
+  }
+  build();addEventListener("resize",build);
+  addEventListener("pointermove",function(e){m.x=e.clientX;m.y=e.clientY;},{passive:true});
+  addEventListener("pointerleave",function(){m.x=m.y=-9e3;});
+  var R=150;
+  function loop(){
+    var cs=getComputedStyle(root),base=cs.getPropertyValue("--dot").trim(),hot=cs.getPropertyValue("--dot-hot").trim();
+    x.clearRect(0,0,W,H);
+    for(var i=0;i<dots.length;i++){
+      var d=dots[i],dx=d.ox-m.x,dy=d.oy-m.y,dist=Math.sqrt(dx*dx+dy*dy),f=0;
+      if(dist<R){f=1-dist/R;var a=Math.atan2(dy,dx);
+        d.x+=(d.ox+Math.cos(a)*f*22-d.x)*.18;d.y+=(d.oy+Math.sin(a)*f*22-d.y)*.18;}
+      else{d.x+=(d.ox-d.x)*.1;d.y+=(d.oy-d.y)*.1;}
+      x.beginPath();x.arc(d.x,d.y,1.25+f*2.3,0,6.283);
+      x.fillStyle=f>.05?"rgba("+hot+","+(.22+f*.62).toFixed(3)+")":base;
+      x.fill();
+    }
+    requestAnimationFrame(loop);
+  }
+  if(!reduce)loop();
+})();
+
+/* artwork */
+function artArcs(){return '<svg viewBox="0 0 400 400" fill="none">'+
+ '<circle cx="200" cy="200" r="150" class="s-line" stroke-width="1.5"/><circle cx="200" cy="200" r="108" class="s-line" stroke-width="1.5"/>'+
+ '<path d="M200 50a150 150 0 01150 150" stroke="#FF5E2C" stroke-width="7" stroke-linecap="round"/>'+
+ '<path d="M200 92a108 108 0 00-108 108" stroke="#FF8A1F" stroke-width="7" stroke-linecap="round"/>'+
+ '<circle cx="200" cy="200" r="58" class="s-hl s-hlline" stroke-width="1.5"/>'+
+ '<path d="M176 200l16 16 34-36" stroke="#FF5E2C" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>'+
+ '<circle cx="350" cy="200" r="9" fill="#FF5E2C"/><circle cx="92" cy="200" r="7" fill="#FF8A1F"/>'+
+ '<circle cx="200" cy="50" r="6" class="s-ink"/>'+
+ '<rect x="286" y="300" width="74" height="46" rx="12" class="s-surface s-line" stroke-width="1.5"/>'+
+ '<path d="M302 323h42M302 333h26" class="s-mut" stroke-width="3" stroke-linecap="round"/>'+
+ '<rect x="40" y="62" width="74" height="46" rx="12" class="s-ink"/>'+
+ '<path d="M56 85h42M56 95h26" stroke="#FFB27A" stroke-width="3" stroke-linecap="round"/></svg>';}
+function artBook(){return '<svg viewBox="0 0 400 400" fill="none">'+
+ '<rect x="70" y="86" width="260" height="210" rx="18" class="s-surface s-line" stroke-width="1.5"/>'+
+ '<path d="M200 86v210" class="s-line" stroke-width="1.5"/>'+
+ '<path d="M96 126h78M96 148h62M96 170h78M96 192h48" class="s-mut" stroke-width="4" stroke-linecap="round"/>'+
+ '<circle cx="265" cy="160" r="40" stroke="#FF5E2C" stroke-width="6"/>'+
+ '<path d="M265 134v52M239 160h52" stroke="#FF8A1F" stroke-width="5" stroke-linecap="round"/>'+
+ '<path d="M226 232h78M226 252h52" class="s-mut" stroke-width="4" stroke-linecap="round"/>'+
+ '<rect x="150" y="300" width="100" height="42" rx="12" class="s-hl s-hlline" stroke-width="1.5"/>'+
+ '<path d="M176 321h48" stroke="#FF5E2C" stroke-width="5" stroke-linecap="round"/>'+
+ '<circle cx="330" cy="84" r="10" fill="#FF5E2C"/><circle cx="66" cy="312" r="7" fill="#FFB27A"/></svg>';}
+function artComm(){return '<svg viewBox="0 0 400 400" fill="none">'+
+ '<circle cx="200" cy="200" r="132" class="s-line" stroke-width="1.5" stroke-dasharray="6 9"/>'+
+ '<circle cx="200" cy="200" r="52" class="s-ink"/>'+
+ '<path d="M186 200l10 10 20-22" stroke="#FFB27A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>'+
+ '<circle cx="200" cy="68" r="30" fill="#FF5E2C"/><circle cx="314" cy="266" r="26" fill="#FF8A1F"/>'+
+ '<circle cx="86" cy="266" r="26" class="s-hl s-hlline" stroke-width="1.5"/>'+
+ '<circle cx="332" cy="120" r="16" class="s-surface s-line" stroke-width="1.5"/>'+
+ '<circle cx="68" cy="120" r="16" class="s-surface s-line" stroke-width="1.5"/>'+
+ '<path d="M200 98v50M296 250l-52-26M104 250l52-26" class="s-line" stroke-width="2"/></svg>';}
+var e1=document.getElementById("heroArt");if(e1)e1.innerHTML=artArcs();
+var e2=document.getElementById("aboutArt");if(e2)e2.innerHTML=artBook();
+var e3=document.getElementById("commArt");if(e3)e3.innerHTML=artComm();
+
+/* content */
+var promises=[
+ {ic:"compass",n:"01",t:"Judgement before tools",d:"We start with what AI actually changes about the work in front of you, and what it does not. Which model suits which problem, what your data allows, where the real risk sits. Tools move every month; the judgement lasts."},
+ {ic:"bolt",n:"02",t:"Applied from the first hour",d:"Short bursts of teaching, then you build. Nobody sits through a theory module waiting for the practical part, because there is no separation between the two."},
+ {ic:"cube",n:"03",t:"You keep what you build",d:"Whatever gets built belongs to you, with the documentation to keep it running. Sixty days later we ask whether it is still in use, and we tell you the answer either way."}];
+var steps=[
+ {t:"We start with the work in front of you",d:"For an organisation that means sitting with the people doing the job. For an individual it means your own role and the things that take too long. Either way we map what actually happens before teaching anything, and this part is free."},
+ {t:"You build, we guide",d:"Short bursts of teaching, then time to build, with a practitioner in the room for the moments you get stuck. By the end of the last day something is running: an automation, a workflow, a decision framework you can defend."},
+ {t:"You keep it running",d:"You leave with the thing itself, plain documentation and a plan for using it. Sixty days later we ask how it is going, and if it stopped being used we want to know why."}];
+var cats=[
+ {ic:"book",tag:"Education",t:"The Academy",d:"Programmes for individuals and for organisations, in person and online, from a two-day workshop to a multi-week course. This is the heart of what we do.",go:"services"},
+ {ic:"doc",tag:"Products",t:"Digital products",d:"Guides, research reports and ready-to-deploy AI workflows. Built from the work we do in the room, so you can use them without attending anything.",go:"services"},
+ {ic:"wrench",tag:"Advisory",t:"Consulting and build",d:"When the answer is not a programme. Assessment and roadmap work, and custom AI systems delivered with a proper handover.",go:"services"}];
+var values=[
+ {ic:"spark",t:"Teach first, charge later",d:"The roadshow, the webinars and the readiness check are free. We would rather you see how we teach before paying for anything."},
+ {ic:"target",t:"Built around the work",d:"A marketer, an engineer and a founder need different things from AI. Content is organised around what someone actually does, not around an academic discipline."},
+ {ic:"cube",t:"Something working leaves the room",d:"Not a certificate. A running automation, a tested workflow, or a decision you can defend, with the documentation to keep it alive."},
+ {ic:"shield",t:"Honest about limits",d:"We will tell you when a task is not worth automating, or when AI is the wrong answer entirely. Saying so builds more trust than any claim we could make."},
+ {ic:"layers",t:"Local models, taught properly",d:"Karnak and BelMasry alongside the international families, including the cases where a local model is the wrong choice."},
+ {ic:"users",t:"Taught by practitioners",d:"The person in the room builds this for a living. They open a laptop rather than reading slides."}];
+var aud=[
+ {ic:"user",t:"Professionals",d:"Founders, freelancers, specialists and people changing track, learning on their own account. Open seats, online courses and the community."},
+ {ic:"layers",t:"Teams and departments",d:"Marketing, finance, legal and HR, operations, product, engineering and customer operations. Closed cohorts built around that team's own work."},
+ {ic:"shield",t:"Leadership",d:"Boards and executives deciding where AI fits, what to govern and what to invest in. Briefings and retreats that end in a position, not a summary."}];
+var services=[
+ {tag:"Education",t:"The Academy",
+  d:"Applied AI education for individuals and for organisations. Same approach either way: short bursts of teaching, then you build, and something real exists by the end. What changes is whether the content is shaped around your own workflow or a realistic worked example.",
+  art:"cohort",
+  items:[{b:"Open workshops",e:"Two days at a weekend in Cairo, sold per seat. Pick the track that matches your work."},
+   {b:"Online courses",e:"Four to twelve weeks, part time, live or self-paced. For going deeper than a workshop allows."},
+   {b:"In-person cohorts for organisations",e:"Two days with one team at your premises, built around your actual workflow. Twelve to twenty-five people."},
+   {b:"Online departmental sprints",e:"Five days, one live hour a day. A whole department takes part without anyone leaving their desk."},
+   {b:"Executive briefings and retreats",e:"A day, or a residential programme, for founders and leadership. You leave with a roadmap and a governance position."}],
+  cta:"Talk about a programme"},
+ {tag:"Products",t:"Digital products",
+  d:"Things you can buy and use without attending anything. All of it is drawn from work we have already done in the room, which is why it is practical rather than theoretical, and why it keeps being updated as the tools change.",
+  art:"product",
+  items:[{b:"E-books and practical guides",e:"Playbooks, tool guides and prompt libraries with worked examples. Written to be used at a desk."},
+   {b:"Intelligence reports",e:"Research on AI adoption in Egypt and the region. Sector benchmarks, real costs, model comparisons in Arabic, and a regulatory tracker."},
+   {b:"AI products",e:"Ready-to-deploy workflows, agent configurations and prompt libraries. Proven in real cohorts, not in a demo environment."}],
+  cta:"Ask about a product"},
+ {tag:"Advisory",t:"Consulting and custom build",
+  d:"For when the answer is not a programme. We assess, advise and build, and we hand over properly so your own people can run what we leave behind. Usually this follows teaching rather than replacing it.",
+  art:"build",
+  items:[{b:"AI consulting",e:"Readiness assessment, opportunity mapping and a ranked roadmap with effort and return for each item. Independent, since we resell nobody's software."},
+   {b:"Custom AI build",e:"Agents, automation workflows and retrieval over your own documents, built and deployed into your environment with documentation and training."},
+   {b:"Managed support",e:"Keeping what we built working as models and platforms change. Monitoring, updates and a defined response commitment."}],
+  cta:"Discuss an engagement"}];
+var freeCards=[
+ {ic:"present",t:"The roadshow",d:"Ninety minutes in person. We run it at your office, or you join a public session in Cairo. Live demonstrations on real tools, and time for your own questions.",cta:"Book a roadshow"},
+ {ic:"video",t:"Monthly webinar",d:"Forty-five minutes online, one topic, questions at the end. Recorded and sent to everyone who registers, so it is fine if you cannot make the time.",cta:"Join the next one"},
+ {ic:"doc",t:"AI readiness self-check",d:"A short written diagnostic you can run on yourself or your team in an afternoon. It tells you where to start and what to leave until later.",cta:"Send me the check"}];
+var perks=[
+ {t:"A monthly build session",d:"One evening a month, online. Someone shows something they built, what broke, and how they fixed it. No slides allowed."},
+ {t:"A channel that answers",d:"A working group where you can ask a real question and get an answer from someone who has solved it. Moderated lightly, never a support desk."},
+ {t:"Early access to what we publish",d:"Reports, guides and workflow templates reach members before they go public, and members are asked what would be useful next."},
+ {t:"Alumni sessions",d:"Practitioner sessions reserved for people who have taken a programme, so the learning does not stop at the last day."},
+ {t:"Meetups in Cairo",d:"Periodic in-person gatherings. Small rooms, real conversations, and usually something being demonstrated on a laptop."},
+ {t:"Member rates",d:"Reduced seats on open workshops and online courses, and first access when a cohort has limited places."}];
+var whoFor=[
+ {ic:"bolt",t:"Practitioners",d:"You already build things with AI, or you are trying to. You want people to compare notes with who work in the same conditions you do."},
+ {ic:"users",t:"Team leads",d:"You are responsible for a group getting better at this. You want to see what has actually worked elsewhere before committing budget."},
+ {ic:"star",t:"Founders and learners",d:"You are figuring out where AI fits in your business or your career. You learn faster in a room than from a video."}];
+
+function cardHTML(x,i){
+  return '<article class="card" data-a="rise" style="--d:'+(i*90)+'ms">'+
+   (x.n?'<span class="num">'+x.n+'</span>':'')+'<div class="ico">'+svg(x.ic)+'</div>'+
+   '<h3'+(x.n?' style="margin-top:8px"':'')+'>'+x.t+'</h3><p>'+x.d+'</p>'+
+   (x.cta?'<div class="cta-row" style="margin-top:22px"><button class="btn btn-s" data-ask="'+x.cta+'">'+svg("mail")+x.cta+'</button></div>':'')+'</article>';
+}
+function fill(id,arr,fn){var e=document.getElementById(id);if(e)e.innerHTML=arr.map(fn).join("");}
+fill("promises",promises,cardHTML);
+fill("values",values,cardHTML);
+fill("aud",aud,cardHTML);
+fill("freeCards",freeCards,cardHTML);
+fill("whoFor",whoFor,cardHTML);
+fill("catCards",cats,function(x,i){return '<article class="card" data-a="rise" style="--d:'+(i*90)+'ms">'+
+  '<div class="ico">'+svg(x.ic)+'</div><span class="num">'+x.tag+'</span><h3 style="margin-top:8px">'+x.t+'</h3><p>'+x.d+'</p>'+
+  '<div class="cta-row" style="margin-top:22px"><button class="btn btn-s" data-go="'+x.go+'">See offerings'+svg("arrow")+'</button></div></article>';});
+fill("perks",perks,function(x,i){return '<div data-a="rise" style="--d:'+(i*70)+'ms"><h3>'+x.t+'</h3><p>'+x.d+'</p></div>';});
+fill("steps",steps,function(x,i){return '<div class="stp" data-a="rise" style="--d:'+(i*110)+'ms"><div class="k">0'+(i+1)+'</div><div><h3>'+x.t+'</h3><p>'+x.d+'</p></div></div>';});
+
+var svcArt={
+ cohort:'<svg viewBox="0 0 300 220" fill="none"><rect x="20" y="24" width="260" height="150" rx="16" class="s-surface s-line" stroke-width="1.5"/><circle cx="72" cy="72" r="17" fill="#FFB27A"/><circle cx="118" cy="72" r="17" class="s-hl s-hlline"/><circle cx="164" cy="72" r="17" fill="#FFB27A"/><circle cx="210" cy="72" r="17" class="s-hl s-hlline"/><rect x="52" y="108" width="196" height="12" rx="6" class="s-soft"/><rect x="52" y="130" width="130" height="12" rx="6" class="s-soft"/><rect x="96" y="182" width="108" height="30" rx="10" fill="#FF5E2C"/><path d="M134 197l10 10 22-22" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ product:'<svg viewBox="0 0 300 220" fill="none"><rect x="34" y="40" width="108" height="140" rx="12" class="s-surface s-line" stroke-width="1.5"/><rect x="54" y="64" width="68" height="8" rx="4" class="s-soft"/><rect x="54" y="82" width="50" height="8" rx="4" class="s-soft"/><rect x="54" y="112" width="68" height="46" rx="8" class="s-hl"/><rect x="162" y="40" width="108" height="66" rx="12" class="s-ink"/><path d="M182 66h68M182 82h40" stroke="#FFB27A" stroke-width="5" stroke-linecap="round"/><rect x="162" y="118" width="108" height="62" rx="12" class="s-surface s-line" stroke-width="1.5"/><circle cx="192" cy="149" r="13" fill="#FF8A1F"/><path d="M216 143h38M216 157h24" class="s-mut" stroke-width="4" stroke-linecap="round"/></svg>',
+ build:'<svg viewBox="0 0 300 220" fill="none"><rect x="28" y="52" width="88" height="54" rx="12" class="s-surface s-line" stroke-width="1.5"/><rect x="28" y="124" width="88" height="54" rx="12" class="s-surface s-line" stroke-width="1.5"/><rect x="180" y="86" width="92" height="60" rx="14" class="s-ink"/><path d="M204 116h44" stroke="#FFB27A" stroke-width="5" stroke-linecap="round"/><path d="M116 79h34c10 0 10 37 20 37M116 151h34c10 0 10-35 20-35" stroke="#FF5E2C" stroke-width="3.5" stroke-dasharray="7 7"/><circle cx="180" cy="116" r="8" fill="#FF5E2C"/><circle cx="116" cy="79" r="6" fill="#FF8A1F"/><circle cx="116" cy="151" r="6" fill="#FF8A1F"/></svg>'};
+var sb=document.getElementById("svcBlocks");
+if(sb)sb.innerHTML=services.map(function(s,i){
+  return '<div class="svc" data-a="scale" style="--d:'+(i*110)+'ms"><div class="svc-top"><div class="svc-copy">'+
+   '<span class="tagpill">'+s.tag+'</span><h2 style="font-size:clamp(28px,3.4vw,40px)">'+s.t+'</h2>'+
+   '<p style="color:var(--tx2);margin-top:14px">'+s.d+'</p><ul class="offer">'+
+   s.items.map(function(it){return '<li>'+svg("check")+'<span><b>'+it.b+'</b><em>'+it.e+'</em></span></li>';}).join("")+
+   '</ul><div class="cta-row"><button class="btn btn-p" data-ask="'+s.t+'">'+svg("mail")+s.cta+'</button></div>'+
+   '</div><div class="svc-art">'+svcArt[s.art]+'</div></div></div>';}).join("");
+
+var so=document.getElementById("socials");
+if(so)so.innerHTML=[["li","LinkedIn"],["x","X"],["ig","Instagram"],["yt","YouTube"],["wa","WhatsApp"]]
+  .map(function(s){return '<a href="#" aria-label="'+s[1]+'" title="'+s[1]+'">'+svg(s[0])+'</a>';}).join("");
+
+var mqEl=document.getElementById("mq");
+if(mqEl){var run='<span>'+["Applied, not theoretical","Judgement before tools","Taught in Egyptian Arabic","Karnak and BelMasry","You keep what you build","Checked at 60 days"].join('</span><span>')+'</span>';
+  mqEl.innerHTML=run+run;}
+paint();
+
+/* split headings */
+document.querySelectorAll("[data-split]").forEach(function(h){
+  var out=[];
+  [].slice.call(h.childNodes).forEach(function(n){
+    if(n.nodeType===3){n.textContent.split(/(\s+)/).forEach(function(t){
+      if(!t.trim()){out.push(document.createTextNode(t));return;}
+      var s=document.createElement("span");s.className="w";s.textContent=t;out.push(s);});}
+    else{n.classList&&n.classList.add("w");out.push(n);}
+  });
+  h.innerHTML="";out.forEach(function(n){h.appendChild(n);});
+});
+document.querySelectorAll("[data-circle]").forEach(function(el){
+  var s=document.createElementNS("http://www.w3.org/2000/svg","svg");
+  s.setAttribute("viewBox","0 0 200 80");s.setAttribute("preserveAspectRatio","none");
+  var p=document.createElementNS("http://www.w3.org/2000/svg","path");
+  p.setAttribute("d","M22 44C22 20 62 8 104 9c44 1 76 13 74 32-2 20-42 32-86 31C52 71 22 62 22 44z");
+  s.appendChild(p);el.appendChild(s);
+  try{s.style.setProperty("--len",p.getTotalLength());}catch(e){s.style.setProperty("--len",420);}
+});
+
+/* reveals */
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting)return;var t=e.target;t.classList.add("in");
+    if(t.hasAttribute("data-split")){
+      [].slice.call(t.querySelectorAll(".w")).forEach(function(w,i){
+        w.style.transitionDelay=(i*48)+"ms";w.classList.add("in");});
+      var c=t.querySelector("[data-circle]");if(c)setTimeout(function(){c.classList.add("drawn");},220);}
+    io.unobserve(t);});
+},{threshold:.15,rootMargin:"0px 0px -6% 0px"});
+function watch(scope){(scope||document).querySelectorAll("[data-a],[data-split]").forEach(function(n){
+  if(n.classList.contains("in"))return;io.unobserve(n);io.observe(n);});}
+
+/* marquee */
+(function(){var el=document.getElementById("mq");if(!el||reduce)return;
+  var base=0,last=scrollY,vel=0;
+  (function tick(){var d=scrollY-last;last=scrollY;vel+=(d-vel)*.12;
+    base-=.45+Math.abs(vel)*.32;var half=el.scrollWidth/2;
+    if(half&&-base>=half)base+=half;
+    el.style.transform="translate3d("+base.toFixed(2)+"px,0,0)";requestAnimationFrame(tick);})();
+})();
+
+/* router */
+var PAGES=["home","about","services","community","contact"];
+function go(name,push){
+  if(PAGES.indexOf(name)<0)name="home";
+  PAGES.forEach(function(p){var el=document.getElementById("p-"+p);if(el)el.classList.toggle("live",p===name);});
+  document.querySelectorAll("[data-go]").forEach(function(a){
+    if(a.classList.contains("brand"))return;a.classList.toggle("on",a.dataset.go===name);});
+  document.getElementById("sheet").classList.remove("open");
+  document.getElementById("burger").setAttribute("aria-expanded","false");
+  if(push!==false)history.replaceState(null,"","#"+name);
+  window.scrollTo({top:0,behavior:"auto"});
+  var live=document.getElementById("p-"+name);
+  watch(live);requestAnimationFrame(function(){watch(live);});
+}
+document.addEventListener("click",function(e){
+  var g=e.target.closest?e.target.closest("[data-go]"):null;
+  if(g){e.preventDefault();go(g.dataset.go);return;}
+  var ask=e.target.closest?e.target.closest("[data-ask]"):null;
+  if(ask){e.preventDefault();go("contact");
+    setTimeout(function(){setInterest(ask.dataset.ask);
+      var n=document.getElementById("qn");if(n)n.focus({preventScroll:true});},260);}
+});
+document.getElementById("burger").addEventListener("click",function(){
+  var s=document.getElementById("sheet"),o=s.classList.toggle("open");
+  this.setAttribute("aria-expanded",o?"true":"false");});
+addEventListener("hashchange",function(){go(location.hash.replace("#",""),false);});
+addEventListener("scroll",function(){document.getElementById("nav").classList.toggle("stuck",scrollY>10);},{passive:true});
+
+/* forms */
+var OPTS={team:["In-person cohort for our team","Online departmental sprint","Executive briefing or retreat","AI consulting","Custom AI build","Managed support","Digital products for our team","Book a free roadshow at our office","Not sure yet"],
+ me:["Open workshop","Online course","Executive programme","E-books and guides","Intelligence reports","AI products","Next webinar","Not sure yet"]};
+var current="team",sel=document.getElementById("qi"),orgWrap=document.getElementById("orgWrap");
+function setPath(v,extra){
+  current=v;
+  document.querySelectorAll("#segQ button").forEach(function(b){b.classList.toggle("on",b.dataset.v===v);});
+  if(orgWrap)orgWrap.style.display=v==="team"?"block":"none";
+  var list=OPTS[v].slice();
+  if(extra&&list.indexOf(extra)<0)list.unshift(extra);
+  if(sel){sel.innerHTML=list.map(function(o){return '<option>'+o+'</option>';}).join("");if(extra)sel.value=extra;}
+}
+function setInterest(n){setPath(OPTS.me.indexOf(n)>=0?"me":"team",n);}
+document.querySelectorAll("#segQ button").forEach(function(b){b.addEventListener("click",function(){setPath(b.dataset.v);});});
+setPath("team");
+var segC="Practitioner";
+document.querySelectorAll("#segC button").forEach(function(b){b.addEventListener("click",function(){
+  segC=b.dataset.v;document.querySelectorAll("#segC button").forEach(function(o){o.classList.toggle("on",o===b);});});});
+var fq=document.getElementById("formQ");
+if(fq)fq.addEventListener("submit",function(e){e.preventDefault();var f=e.target;
+  var org=(f.org&&f.org.value&&current==="team")?"\nOrganisation: "+f.org.value:"";
+  var body="Name: "+f.name.value+"\nEmail: "+f.email.value+org+"\nAsking for: "+(current==="team"?"my organisation":"myself")+
+    "\nInterested in: "+f.interest.value+"\n\n"+(f.message.value||"");
+  location.href="mailto:hello@jazari.academy?subject="+encodeURIComponent((current==="team"?"Organisation enquiry: ":"Enquiry: ")+f.interest.value)+"&body="+encodeURIComponent(body);
+  document.getElementById("okQ").classList.add("show");});
+var fc=document.getElementById("formC");
+if(fc)fc.addEventListener("submit",function(e){e.preventDefault();var f=e.target;
+  var body="Name: "+f.name.value+"\nEmail: "+f.email.value+"\nProfile: "+segC+"\nRole and organisation: "+(f.role.value||"")+"\n\nWorking on:\n"+(f.work.value||"");
+  location.href="mailto:community@jazari.academy?subject="+encodeURIComponent("Community application: "+segC)+"&body="+encodeURIComponent(body);
+  document.getElementById("okC").classList.add("show");});
+
+go(location.hash.replace("#","")||"home",false);
+watch();
+})();
+</script>
+</body>
+</html>
